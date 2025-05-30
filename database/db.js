@@ -2,7 +2,7 @@
 
 const { Sequelize } = require("sequelize")
 // const Sequelize = require("sequelize").Sequelize
-require("dotenv").config() // yo garepaxi only hami dotenv ko data haru yo file ma access garna milxa
+require("dotenv").config() // yo garepaxi only hami dotenv ko data haru yo file ma access garna milxaa
 
 const sequelize = new Sequelize(
     {
