@@ -1,6 +1,6 @@
 // database connection ko code lekxam 
 
-const { Sequelize } = require("sequelize")
+const { Sequelize, DataTypes } = require("sequelize")
 // const Sequelize = require("sequelize").Sequelize
 require("dotenv").config() // yo garepaxi only hami dotenv ko data haru yo file ma access garna milxaa
 
@@ -15,7 +15,6 @@ const sequelize = new Sequelize(
     }
 ) // making object from Sequelize class
 
-
 sequelize.authenticate()
     .then(() => {
         console.log("connected")
@@ -23,17 +22,14 @@ sequelize.authenticate()
     .catch((err) => {
         console.log("error", err);
     })
-// Dog dog = new Dog()
 
+const db = {}
+db.blogs = require("./../models/blogModel")(sequelize, DataTypes)
+db.users = require("./../models/userModel")(sequelize, DataTypes)
 
-// const info = {
-//     name : "manish",
-//     age : 23
-// }
-
-// const name = info.name
-// const age = info.age
-// // destructure
-// const {name,age} = info
+sequelize.sync({ alter: false }).then(() => {
+    console.log("migrated successfully")
+}) // migration code
+// task product table -- name, price, quantity, description columns  
 
 module.exports = sequelize
