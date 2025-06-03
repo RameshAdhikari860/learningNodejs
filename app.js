@@ -4,17 +4,30 @@ require("./database/db.js")
 // const app = require("express")()
 app.set("view engine", "ejs") // tells express js to set environment for ejs to run  
 
-app.get("/", function (req, res) {
-    // let name = "Manish"
-    res.render("home", { age: 23, name: "Manish" })
+// get todos - page 
+app.get("/", (req, res) => {
+    res.render("todo/get-todo.ejs")
 })
 
-app.get("/about", function (req, res) {
-    res.render("about", { text: "about" })
+// add todo - page 
+app.get("/add-todo", (req, res) => {
+    res.render("todo/add-todo")
 })
 
-// task 
-// /about - about.ejs(This is about page) vanerw aaunu paryo but , about vanerw lekeko word chai app.js bata pass hunu paryo 
+// update todo -- page 
+app.get("/update-todo", (req, res) => {
+    res.render("todo/update-todo")
+})
+// 
+// login page 
+app.get("/login", (req, res) => {
+    res.render("authentication/login")
+})
+// register page 
+app.get("/register", (req, res) => {
+    res.render("authentication/register")
+})
+
 
 app.listen(4000, function () {
     console.log("Backend has started at port 4000")

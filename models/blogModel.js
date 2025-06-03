@@ -16,5 +16,6 @@ const makeBlogTable = (sequelize, Datatypes) => {
 }
 
 module.exports = makeBlogTable
+
 // .define() == table banaedine vayo 
 
