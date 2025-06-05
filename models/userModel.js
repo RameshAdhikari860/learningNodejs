@@ -8,6 +8,9 @@ const makeUserTable = (sequelize, Datatypes) => {
         },
         password: {
             type: Datatypes.STRING
+        },
+        email: {
+            type: Datatypes.STRING
         }
     })
     return User

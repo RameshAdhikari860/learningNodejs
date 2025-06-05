@@ -33,3 +33,5 @@ sequelize.sync({ alter: false }).then(() => {
 // task product table -- name, price, quantity, description columns  
 
 module.exports = sequelize
+
+module.exports = db
