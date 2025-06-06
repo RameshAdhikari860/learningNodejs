@@ -5,6 +5,7 @@ const db = require("./database/db.js")
 app.set("view engine", "ejs") // tells express js to set environment for ejs to run  
 
 app.use(express.urlencoded({ extended: true }))
+const bcrypt = require("bcrypt")
 
 // get todos - page 
 app.get("/", (req, res) => {
@@ -31,22 +32,25 @@ app.get("/register", (req, res) => {
 })
 
 
-app.post('/register', async (req, res) => {
+app.post("/register", async (req, res) => {
+    console.log(req.body);
     const { username, email, password, confirm_password } = req.body
+    // const username = req.body.username 
+    // const email = req.body.email 
+    // const password = req.body.password
     if (password !== confirm_password) {
-        res.send("password and confirm password doesn't match")
+        return res.send("Password and confirm password didnot match")
     }
 
     await db.users.create({
-        username,
-        email,
-        password
-
+        username: username,
+        password: bcrypt.hashSync(password, 10),
+        email: email
     })
 
-
+    res.send("Registered successfully")
+    // insert into users(email,username,password) value()
 })
-
 
 
 
