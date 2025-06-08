@@ -51,6 +51,13 @@ app.post("/register", async (req, res) => {
     res.send("Registered successfully")
     // insert into users(email,username,password) value()
 })
+app.post('/todo', async (req, res) => {
+    const { task, description, date } = req.body
+    await db.todos.create({
+        task, description, date
+    })
+    res.redirect("/")
+})
 
 
 

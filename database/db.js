@@ -26,8 +26,9 @@ sequelize.authenticate()
 const db = {}
 db.blogs = require("./../models/blogModel")(sequelize, DataTypes)
 db.users = require("./../models/userModel")(sequelize, DataTypes)
+db.todos = require("./../models/todoModel")(sequelize, DataTypes)
 
-sequelize.sync({ alter: false }).then(() => {
+sequelize.sync({ alter: true }).then(() => {
     console.log("migrated successfully")
 }) // migration code
 // task product table -- name, price, quantity, description columns  
