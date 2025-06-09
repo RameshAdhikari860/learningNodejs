@@ -8,8 +8,9 @@ app.use(express.urlencoded({ extended: true }))
 const bcrypt = require("bcrypt")
 
 // get todos - page 
-app.get("/", (req, res) => {
-    res.render("todo/get-todo.ejs")
+app.get("/", async (req, res) => {
+    const datas = await db.todos.findAll() // select * from todos
+    res.render("todo/get-todo.ejs", { todos: datas })
 })
 
 // add todo - page 
