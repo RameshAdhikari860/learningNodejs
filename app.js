@@ -35,13 +35,11 @@ app.get("/register", (req, res) => {
 
 app.post("/register", async (req, res) => {
     console.log(req.body);
-    const { username, email, password, confirm_password } = req.body
+    const { username, email, password } = req.body
     // const username = req.body.username 
     // const email = req.body.email 
     // const password = req.body.password
-    if (password !== confirm_password) {
-        return res.send("Password and confirm password didnot match")
-    }
+
 
     await db.users.create({
         username: username,
@@ -51,6 +49,30 @@ app.post("/register", async (req, res) => {
 
     res.send("Registered successfully")
     // insert into users(email,username,password) value()
+})
+
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body
+    // login logic --> check if email exists or not 
+    const users = await db.users.findAll({
+        where: {
+            email: email
+        }
+    })
+
+    // select * from users where email = "manish@gmail.com" AND age = 22
+
+    if (users.length == 0) { // email wala user vetena vane
+        res.send("Not registered email")
+    } else {
+        // now check password, first --> plain password(form bata aako), hashed password already register garda table ma baseko 
+        const isPasswordMatch = bcrypt.compareSync(password, users[0].password)
+        if (isPasswordMatch) {
+            res.send("Logged in successfully")
+        } else {
+            res.send("Invalid credentials")
+        }
+    }
 })
 app.post('/todo', async (req, res) => {
     const { task, description, date } = req.body
