@@ -7,6 +7,8 @@ app.set("view engine", "ejs") // tells express js to set environment for ejs to 
 app.use(express.urlencoded({ extended: true }))
 const bcrypt = require("bcrypt")
 
+const jwt = require("jsonwebtoken")
+
 // get todos - page 
 app.get("/", async (req, res) => {
     const datas = await db.todos.findAll() // select * from todos
@@ -68,7 +70,13 @@ app.post("/login", async (req, res) => {
         // now check password, first --> plain password(form bata aako), hashed password already register garda table ma baseko 
         const isPasswordMatch = bcrypt.compareSync(password, users[0].password)
         if (isPasswordMatch) {
-            res.send("Logged in successfully")
+            // token generation 
+            const token = jwt.sign({ name: "manish" }, "thisismysecrethaha", {
+                expiresIn: "1d"
+            })
+            res.cookie("token", token)
+            res.redirect("/")
+            // res.send("Logged in successfully")
         } else {
             res.send("Invalid credentials")
         }
