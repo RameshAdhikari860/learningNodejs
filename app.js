@@ -8,15 +8,16 @@ app.use(express.urlencoded({ extended: true }))
 const bcrypt = require("bcrypt")
 
 const jwt = require("jsonwebtoken")
+const isLoggedInOrNot = require("./middleware/isLoggedInOrNot.js")
 
 // get todos - page 
-app.get("/", async (req, res) => {
+app.get("/", isLoggedInOrNot, async (req, res) => {
     const datas = await db.todos.findAll() // select * from todos
     res.render("todo/get-todo.ejs", { todos: datas })
 })
 
 // add todo - page 
-app.get("/add-todo", (req, res) => {
+app.get("/add-todo", isLoggedInOrNot, (req, res) => {
     res.render("todo/add-todo")
 })
 
@@ -75,6 +76,7 @@ app.post("/login", async (req, res) => {
                 expiresIn: "1d"
             })
             res.cookie("token", token)
+
             res.redirect("/")
             // res.send("Logged in successfully")
         } else {
