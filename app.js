@@ -3,13 +3,14 @@ const app = express()
 const db = require("./database/db.js")
 // const app = require("express")()
 app.set("view engine", "ejs") // tells express js to set environment for ejs to run  
-
 app.use(express.urlencoded({ extended: true }))
 const bcrypt = require("bcrypt")
 
 const jwt = require("jsonwebtoken")
 const isLoggedInOrNot = require("./middleware/isLoggedInOrNot.js")
 
+const cookieParser = require('cookie-parser')
+app.use(cookieParser())
 // get todos - page 
 app.get("/", isLoggedInOrNot, async (req, res) => {
     const datas = await db.todos.findAll() // select * from todos
