@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 
 
-const isLoggedInOrNot = (req, res) => {
+const isLoggedInOrNot = (req, res, next) => {
     // receive token 
     const token = req.cookies.token
     // verify token 
@@ -13,7 +13,8 @@ const isLoggedInOrNot = (req, res) => {
             if (error) {
                 res.send("invalid token")
             } else {
-                res.send("valid token, verified")
+                req.userId = result.id
+                next()
             }
         })
     }

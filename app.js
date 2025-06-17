@@ -13,12 +13,14 @@ const cookieParser = require('cookie-parser')
 app.use(cookieParser())
 // get todos - page 
 app.get("/", isLoggedInOrNot, async (req, res) => {
+    console.log(req.age)
     const datas = await db.todos.findAll() // select * from todos
     res.render("todo/get-todo.ejs", { todos: datas })
 })
 
 // add todo - page 
 app.get("/add-todo", isLoggedInOrNot, (req, res) => {
+
     res.render("todo/add-todo")
 })
 
@@ -73,7 +75,7 @@ app.post("/login", async (req, res) => {
         const isPasswordMatch = bcrypt.compareSync(password, users[0].password)
         if (isPasswordMatch) {
             // token generation 
-            const token = jwt.sign({ name: "manish" }, "thisismysecrethaha", {
+            const token = jwt.sign({ id: users[0].id }, "thisismysecrethaha", {
                 expiresIn: "1d"
             })
             res.cookie("token", token)
@@ -85,7 +87,7 @@ app.post("/login", async (req, res) => {
         }
     }
 })
-app.post('/todo', async (req, res) => {
+app.post('/todo', isLoggedInOrNot, async (req, res) => {
     const { task, description, date } = req.body
     await db.todos.create({
         task, description, date
