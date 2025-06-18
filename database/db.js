@@ -28,10 +28,18 @@ db.blogs = require("./../models/blogModel")(sequelize, DataTypes)
 db.users = require("./../models/userModel")(sequelize, DataTypes)
 db.todos = require("./../models/todoModel")(sequelize, DataTypes)
 
-sequelize.sync({ alter: true }).then(() => {
+
+// yesto relation xa vanerw 
+db.users.hasMany(db.todos)
+db.todos.belongsTo(db.users)
+
+
+sequelize.sync({ alter: false }).then(() => {
     console.log("migrated successfully")
 }) // migration code
 // task product table -- name, price, quantity, description columns  
+
+
 
 module.exports = sequelize
 

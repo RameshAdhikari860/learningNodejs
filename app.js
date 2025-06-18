@@ -13,8 +13,12 @@ const cookieParser = require('cookie-parser')
 app.use(cookieParser())
 // get todos - page 
 app.get("/", isLoggedInOrNot, async (req, res) => {
-    console.log(req.age)
-    const datas = await db.todos.findAll() // select * from todos
+    const userId = req.userId
+    const datas = await db.todos.findAll({
+        where: {
+            userId: userId
+        }
+    }) // select * from todos where userId = userId
     res.render("todo/get-todo.ejs", { todos: datas })
 })
 
@@ -88,13 +92,26 @@ app.post("/login", async (req, res) => {
     }
 })
 app.post('/todo', isLoggedInOrNot, async (req, res) => {
+    const userId = req.userId
     const { task, description, date } = req.body
     await db.todos.create({
-        task, description, date
+        task, description, date,
+        userId: userId
     })
     res.redirect("/")
 })
 
+
+app.get("/delete/:id", async (req, res) => {
+    const id = req.params.id
+
+    await db.todos.destroy({
+        where: {
+            id: id
+        }
+    })
+    res.send("Deleted successfully")
+})
 
 
 app.listen(4000, function () {
