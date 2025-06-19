@@ -114,6 +114,34 @@ app.get("/delete/:id", async (req, res) => {
 })
 
 
+app.get("/edit/:id", isLoggedInOrNot, async (req, res) => {
+    const id = req.params.id
+    const todos = await db.todos.findAll({
+        where: {
+            id: id
+        }
+    })
+
+    res.render("todo/update-todo.ejs", { todos: todos })
+})
+
+
+app.post("/edit/:id", isLoggedInOrNot, async (req, res) => {
+    const id = req.params.id
+    const { task, description, status } = req.body
+    await db.todos.update({
+        task: task,
+        description: description,
+        status: status
+    }, {
+        where: {
+            id: id
+        }
+    })
+
+    res.redirect("/")
+})
+
 app.listen(4000, function () {
     console.log("Backend has started at port 4000")
 })

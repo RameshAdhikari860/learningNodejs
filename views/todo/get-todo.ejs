@@ -82,16 +82,24 @@
                 <% todos.forEach(function(todo){ %>
                 <li class="py-4">
                     <div class="flex items-center">
-                        <input id="todo3" name="todo3" type="checkbox"
-                            class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded">
+
                         <label for="todo3" class="ml-3 block text-gray-900">
                             <span class="text-lg font-medium"><%- todo.task %>
                             </span>
-                            <span class="text-sm font-light text-gray-500">3
-                                miles</span>
+                            <span
+                                class="text-sm font-light text-gray-500">Status
+                                : <%- todo.status %></span>
+                            <p
+                                class="text-sm font-light text-gray-500">Description
+                                : <%- todo.description %></p>
+                            <p
+                                class="text-sm font-light text-gray-500">Date
+                                : <%- todo.date %></p>
                         </label>
                     </div>
                     <a href="/delete/<%- todo.id %>"><button>Delete
+                            me</button></a>
+                    <a href="/edit/<%- todo.id %>"><button>Edit
                             me</button></a>
                 </li>
                 <% }) %>
